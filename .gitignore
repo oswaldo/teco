@@ -1,0 +1,13 @@
+.bsp/
+.metals/
+.scala-build/
+.vscode/
+downloads/
+target/
+node_modules/
+.java-version
+.idea/
+.bloop/
+project/project/
+project/metals.sbt
+multi-participant-chat-memory.*
