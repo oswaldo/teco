@@ -2,9 +2,13 @@ package teco.backend.balance
 
 import zio.*
 
-case class InMemoryBalanceRepo(map: Ref[Map[String, Balance]]) extends BalanceRepo:
+case class InMemoryBalanceRepo(balanceMapRef: Ref[Map[String, Balance]]) extends BalanceRepo:
   def lookup(clientId: String): UIO[Option[Balance]] =
-    map.get.map(_.get(clientId))
+    for
+      _          <- ZIO.logDebug(s"Retrieving balance for client $clientId")
+      balanceMap <- balanceMapRef.get
+      balance     = balanceMap.get(clientId)
+    yield balance
 
 object InMemoryBalanceRepo:
   def layer: ZLayer[Any, Nothing, InMemoryBalanceRepo] =
